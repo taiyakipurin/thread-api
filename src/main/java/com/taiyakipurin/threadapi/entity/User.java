@@ -1,6 +1,7 @@
 package com.taiyakipurin.threadapi.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class User
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "author")
@@ -42,11 +43,6 @@ public class User
         return username;
     }
 
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
-
     public String getEmail()
     {
         return email;
@@ -57,18 +53,39 @@ public class User
         return password;
     }
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
-
     public LocalDateTime getCreatedAt()
     {
         return createdAt;
     }
 
+    public List<Post> getPosts()
+    {
+        return posts;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
     public void setCreatedAt(LocalDateTime createdAt)
     {
         this.createdAt = createdAt;
+    }
+
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+    public void setPost(Post post)
+    {
+        this.posts.add(post);
+    }
+
+    @PrePersist
+    public void prePersist()
+    {
+        this.createdAt = LocalDateTime.now();
     }
 }

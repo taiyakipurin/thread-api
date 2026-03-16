@@ -7,6 +7,7 @@ import com.taiyakipurin.threadapi.repository.UserRepository;
 import com.taiyakipurin.threadapi.entity.Post;
 import com.taiyakipurin.threadapi.entity.User;
 import com.taiyakipurin.threadapi.dto.CreatePostRequest;
+import com.taiyakipurin.threadapi.dto.PostResponse;
 
 @Service
 public class PostService
@@ -20,7 +21,7 @@ public class PostService
         this.userRepository = userRepository;
     }
 
-    public Post createPost(CreatePostRequest request)
+    public PostResponse createPost(CreatePostRequest request)
     {
         User user = userRepository.findById(request.getAuthorId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -30,7 +31,20 @@ public class PostService
         post.setContent(request.getContent());
         post.setAuthor(user);
 
-        return postRepository.save(post);
+        postRepository.save(post);
+
+        PostResponse response = new PostResponse();
+
+        response.setId(post.getId());
+        response.setTitle(post.getTitle());
+        response.setAuthorId(post
+                .getAuthor()
+                .getId());
+        response.setContent(post.getContent());
+        response.setScore(post.getScore());
+        response.setCreatedAt(post.getCreatedAt());
+
+        return response;
     }
 
     public List<Post> getAllPosts()
@@ -38,8 +52,21 @@ public class PostService
         return postRepository.findAll();
     }
 
-    public Post getPostById(Long id)
+    public PostResponse getPostById(Long id)
     {
-        return postRepository.findById(id).orElse(null);
+        Post post = postRepository
+                .findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+
+        PostResponse response = new PostResponse();
+
+        response.setId(post.getId());
+        response.setTitle(post.getTitle());
+        response.setScore(post.getScore());
+        response.setAuthorId(post
+                .getAuthor().getId());
+        response.setContent(post.getContent());
+        response.setCreatedAt(post.getCreatedAt());
+
+        return response;
     }
 }

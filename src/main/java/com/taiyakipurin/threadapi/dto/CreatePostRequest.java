@@ -10,13 +10,6 @@ public class CreatePostRequest
     {
     }
 
-    public CreatePostRequest(String title, String content, Long authorId)
-    {
-        this.title = title;
-        this.content = content;
-        this.authorId = authorId;
-    }
-
     public String getTitle()
     {
         return title;

@@ -1,6 +1,5 @@
 package com.taiyakipurin.threadapi.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.taiyakipurin.threadapi.repository.UserRepository;
@@ -18,12 +17,24 @@ public class UserService
 
     public User createUser(User user)
     {
-        //user.setCreatedAt(LocalDateTime.now());
         return userRepository.save(user);
     }
 
     public List<User> getAllUsers()
     {
         return userRepository.findAll();
+    }
+
+    public User getUserById(Long id)
+    {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public void deleteUserById(Long id)
+    {
+        User user = userRepository
+                .findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        userRepository.delete(user);
     }
 }

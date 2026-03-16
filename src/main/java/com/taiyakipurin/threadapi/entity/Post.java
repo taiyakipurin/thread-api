@@ -22,7 +22,7 @@ public class Post
     private String content;
 
     @Column(nullable = false)
-    private int score = 0;
+    private int score;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -91,5 +91,6 @@ public class Post
     public void prePersist()
     {
         this.createdAt = LocalDateTime.now();
+        this.score = 0;
     }
 }

@@ -2,7 +2,7 @@ package com.taiyakipurin.threadapi.dto;
 
 import java.time.LocalDateTime;
 
-public class PostResponse
+public class PostDto
 {
     private Long id;
     private String title;
@@ -11,7 +11,7 @@ public class PostResponse
     private int score;
     private LocalDateTime createdAt;
 
-    public  PostResponse()
+    public PostDto()
     {
     }
 

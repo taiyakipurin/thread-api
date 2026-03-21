@@ -1,5 +1,6 @@
 package com.taiyakipurin.threadapi.controller;
 
+import com.taiyakipurin.threadapi.dto.GetUserResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +36,7 @@ public class UserController
     }
 
     @GetMapping("/{id}")
-    public User userById(@PathVariable Long id)
+    public GetUserResponse userById(@PathVariable Long id)
     {
         return userService.getUserById(id);
     }

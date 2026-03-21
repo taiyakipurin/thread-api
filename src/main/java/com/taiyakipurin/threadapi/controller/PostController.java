@@ -11,7 +11,8 @@ import java.util.List;
 import com.taiyakipurin.threadapi.entity.Post;
 import com.taiyakipurin.threadapi.service.PostService;
 import com.taiyakipurin.threadapi.dto.CreatePostRequest;
-import com.taiyakipurin.threadapi.dto.PostResponse;
+import com.taiyakipurin.threadapi.dto.PostDto;
+import com.taiyakipurin.threadapi.dto.PostDetailDto;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -31,13 +32,13 @@ public class PostController
     }
 
     @GetMapping("/posts/{id}")
-    public PostResponse getPost(@PathVariable Long id)
+    public PostDetailDto getPost(@PathVariable Long id)
     {
         return postService.getPostById(id);
     }
 
     @PostMapping("/posts")
-    public PostResponse createPost(@RequestBody CreatePostRequest request)
+    public PostDto createPost(@RequestBody CreatePostRequest request)
     {
         return postService.createPost(request);
     }

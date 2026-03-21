@@ -3,16 +3,21 @@ package com.taiyakipurin.threadapi.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.taiyakipurin.threadapi.repository.UserRepository;
+import com.taiyakipurin.threadapi.repository.PostRepository;
 import com.taiyakipurin.threadapi.entity.User;
+import com.taiyakipurin.threadapi.dto.GetUserResponse;
 
 @Service
 public class UserService
 {
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
-    public UserService(UserRepository userRepository)
+    public UserService(UserRepository userRepository,
+                       PostRepository postRepository)
     {
         this.userRepository = userRepository;
+        this.postRepository = postRepository;
     }
 
     public User createUser(User user)
@@ -25,9 +30,18 @@ public class UserService
         return userRepository.findAll();
     }
 
-    public User getUserById(Long id)
+    public GetUserResponse getUserById(Long id)
     {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        GetUserResponse response = new GetUserResponse();
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        response.setUserId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        response.setCreatedAt(user.getCreatedAt());
+        response.setPostCount(postRepository.countByAuthor(user));
+
+        return response;
     }
 
     public void deleteUserById(Long id)

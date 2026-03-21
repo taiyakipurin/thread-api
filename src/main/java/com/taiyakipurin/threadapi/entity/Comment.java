@@ -3,49 +3,36 @@ package com.taiyakipurin.threadapi.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-import com.taiyakipurin.threadapi.entity.Comment;
+import com.taiyakipurin.threadapi.entity.Post;
 
 @Entity
-@Table(name = "posts")
-public class Post
+@Table(name="comments")
+public class Comment
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
-
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "comment")
-    private Comment comment;
+    @JoinColumn(name="post_id", nullable = false)
+    private Post post;
 
-    @Column(nullable = false)
-    private int score;
-
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    public Post()
-    {
-
-    }
+    @Column(nullable = false)
+    private Long rating;
 
     public Long getId()
     {
         return id;
-    }
-
-    public String getTitle()
-    {
-        return title;
     }
 
     public User getAuthor()
@@ -53,9 +40,14 @@ public class Post
         return author;
     }
 
-    public int getScore()
+    public String getContent()
     {
-        return score;
+        return content;
+    }
+
+    public Post getPost()
+    {
+        return post;
     }
 
     public LocalDateTime getCreatedAt()
@@ -63,9 +55,9 @@ public class Post
         return createdAt;
     }
 
-    public String getContent()
+    public Long getRating()
     {
-        return content;
+        return rating;
     }
 
     public void setAuthor(User author)
@@ -73,9 +65,9 @@ public class Post
         this.author = author;
     }
 
-    public void setScore(int score)
+    public void setContent(String content)
     {
-        this.score = score;
+        this.content = content;
     }
 
     public void setCreatedAt(LocalDateTime createdAt)
@@ -83,20 +75,23 @@ public class Post
         this.createdAt = createdAt;
     }
 
-    public void setContent(String content)
+    public void setPost(Post post)
     {
-        this.content = content;
+        this.post = post;
     }
 
-    public void setTitle(String title)
+    public void setRating(Long rating)
     {
-        this.title = title;
+        this.rating = rating;
     }
 
     @PrePersist
     public void prePersist()
     {
         this.createdAt = LocalDateTime.now();
-        this.score = 0;
+        this.rating = 0L;
     }
+
+
+
 }
